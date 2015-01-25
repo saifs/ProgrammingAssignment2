@@ -10,7 +10,8 @@ makeCacheMatrix <- function(x = matrix()) {
     ## Set default 'inverse' in this parent environment of the below functions so R does not
     ## search other environments for values of 'inverse'.
     inverse <- NULL
-    ## Change and set the value of the original matrix. Clear previous cached inverse.
+    ## Change and set the value of the original matrix.
+    ## Clear previous cached inverse so it can be recomputed.
     ## The '<<-' assignment modifies the existing variable found by going up parent evironments.
     set <- function(y) {
         x <<- y
@@ -35,6 +36,8 @@ cacheSolve <- function(x) {
     ## Retrieve inverse value that exists in special "matrix" created in makeCacheMatrix function
     inverse <- x$getinverse()
     ## If cached inverse exists, return this matrix.
+    ## For a changed matrix, a new correct inverse matrix will be computed since the "set" function
+    ## in makeCacheMatrix erases the previous cached inverse.
     if(!is.null(inverse)) {
         message("getting cached data")
         return(inverse)
